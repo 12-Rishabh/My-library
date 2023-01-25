@@ -97,7 +97,7 @@ const userAuth = require("./../middleware/Authorization");
 
 router
   .route("")
-  .post(BookController.addNewBook)
+  .post(userAuth.isLoggedIn, BookController.addNewBook)
   .get(BookController.getAllBooks);
 
 /**

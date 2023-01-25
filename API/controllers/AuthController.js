@@ -29,7 +29,7 @@ exports.signup = async (req, res, next) => {
     });
 
     const user = await newUser.save();
-    res.status(200).json({
+    res.status(201).json({
       message: "Signup Successfull.",
     });
   } catch (err) {

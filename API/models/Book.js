@@ -4,22 +4,22 @@ const bookSchema = new mongoose.Schema(
   {
     coverName: {
       type: String,
-      require: true,
+      required: true,
       min: 3,
     },
     authorName: {
       type: String,
-      require: true,
+      required: true,
       min: 3,
     },
     genre: {
       type: String,
-      require: true,
+      required: true,
       min: 3,
     },
     isIssued: {
       type: Boolean,
-      require: true,
+      required: true,
       default: false,
     },
     issuedBy: {

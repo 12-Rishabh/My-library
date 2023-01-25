@@ -21,11 +21,15 @@ exports.addNewBook = async (req, res, next) => {
       genre: req.body.genre,
     });
 
-    const book = await newBook.save();
-    res.status(200).json({
-      message: "Added successfully",
-      data: book,
-    });
+    if (req.body.user.isAdmin) {
+      const book = await newBook.save();
+      res.status(201).json({
+        message: "Added successfully",
+        data: book,
+      });
+    } else {
+      res.status(403).json("Only admin can add a book!");
+    }
   } catch (err) {
     res.status(500).json(err);
   }
@@ -117,7 +121,9 @@ exports.updateBook = async (req, res, next) => {
       const { user, ...changes } = req.body;
       console.log(changes);
       await book.updateOne({ $set: changes });
-      res.status(200).json("The book has been updated!");
+      res.status(200).json({
+        message: "The book has been updated!",
+      });
     } else {
       res.status(403).json("Only admin can update a book!");
     }

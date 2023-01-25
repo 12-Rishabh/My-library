@@ -12,7 +12,7 @@ const swaggerUi = require("swagger-ui-express");
 
 const app = express();
 
-dotenv.config();
+dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 
 const options = {
   definition: {
@@ -51,13 +51,15 @@ const options = {
 const swaggerSpec = swaggerJSDoc(options);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
+mongoose.set("strictQuery", false);
+
 mongoose.connect(process.env.MONGO_URL, {}, (err) => {
   if (err) console.log(err);
   else console.log("Connected to MongoDB!");
 });
 
 const limiter = rateLimit({
-  max: 10,
+  max: 20,
   windowMs: 5000,
 });
 
@@ -70,14 +72,10 @@ app.use("/api/users/", limiter, userRoutes);
 app.use("/api/auth/", limiter, authRoutes);
 app.use("/api/books/", limiter, bookRoutes);
 
-// // serve swagger
-// app.get("/api/docs/hellobooks.json", (req, res) => {
-//   res.setHeader("Content-Type", "application/json");
-//   res.send(swaggerSpec);
-// });
-
 const port = process.env.PORT || 7000;
 
 app.listen(port, () => {
   console.log("Server : 7000 is running");
 });
+
+module.exports = app;
