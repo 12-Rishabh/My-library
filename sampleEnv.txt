@@ -1,0 +1,6 @@
+MONGO_URL = URL of your DB
+DATABASE_PASSWORD= Your Password
+USERNAME = Your Username
+PORT = 7000
+HOST = localhost
+SECRET_KEY=mySecretKey
