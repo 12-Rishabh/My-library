@@ -1,9 +1,6 @@
-const router = require("express").Router();
 const User = require("./../models/User");
 const Book = require("./../models/Book");
 const userAuth = require("./../middleware/Authorization");
-const { findByIdAndDelete } = require("./../models/Book");
-const BookController = require("./BookController");
 
 /**
  * @description - Dislay users' books
@@ -90,8 +87,8 @@ exports.returnBook = async (req, res, next) => {
     const book = await Book.findById(req.params.bookId);
     const user = await User.findById(req.body.user.id);
 
-    console.log(user);
-    console.log(book);
+    // console.log(user);
+    // console.log(book);
 
     if (book.isIssued) {
       if (book.issuedBy === req.body.user.id) {
@@ -130,9 +127,12 @@ exports.returnBook = async (req, res, next) => {
  */
 
 exports.deleteUser = async (req, res, next) => {
-  console.log(req.body.user);
   try {
     if (req.body.user.isAdmin || req.body.user.id === req.params.id) {
+      const user = await User.findById(req.body.user.id);
+      for (const bookId of user.issuedBooks) {
+        await Book.findByIdAndUpdate(bookId, { issuedBy: "", isIssued: false });
+      }
       await User.findByIdAndDelete(req.params.id);
       res.status(200).json({
         message: "Account Successfully deleted.",

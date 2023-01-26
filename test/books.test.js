@@ -50,8 +50,8 @@ describe("Books Test Cases", function () {
       .send(newUser)
       .end((err, res) => {
         res.should.have.status(201);
+        done();
       });
-    done();
   });
 
   it("Should signup an admin on POST /auth/signup", (done) => {
@@ -68,8 +68,8 @@ describe("Books Test Cases", function () {
       .send(newUser)
       .end((err, res) => {
         res.should.have.status(201);
+        done();
       });
-    done();
   });
 
   it("Should login the admin and fill the token on POST /auth/login", (done) => {
@@ -107,8 +107,8 @@ describe("Books Test Cases", function () {
           coverName: "Test covername 1",
           genre: "testGenre",
         });
+        done();
       });
-    done();
   });
 
   it("Should get the desired book and fill the book id", async () => {
@@ -129,8 +129,8 @@ describe("Books Test Cases", function () {
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.be.an("object");
+        done();
       });
-    done();
   });
 
   it("Should allow admin to modify a book details on /update/:id ", (done) => {
